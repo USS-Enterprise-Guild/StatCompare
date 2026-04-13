@@ -475,14 +475,18 @@ function SCDressUpItemLink(link)
 
 	StatScanner_bonuses = {};
 
-	oldDressUpItemLink(link);
+	if (oldDressUpItemLink) then
+		oldDressUpItemLink(link);
+	end
 end
 
 function SCPaperDollFrame_OnShow()
 	local tiptext = StatCompare_UpdateAndGetTooltipText(StatScanner_bonuses,1);
 	SCShowFrame(StatCompareSelfFrame,PaperDollFrame,UnitName("player"),tiptext,-30,-12);
 
-	oldPaperDollFrame_OnShow();
+	if (oldPaperDollFrame_OnShow) then
+		oldPaperDollFrame_OnShow();
+	end
 end
 
 function SCInspectorFrameShow()
@@ -500,10 +504,14 @@ function SCInspectorFrameShow()
 	tiptext = StatCompare_GetTooltipText(StatScanner_bonuses,1);
 	SCShowFrame(StatCompareSelfFrame,StatCompareTargetFrame,UnitName("player"),tiptext,0,0);
 
-	oldInspectorFrameShow();
+	if (oldInspectorFrameShow) then
+		oldInspectorFrameShow();
+	end
 end
 function SCGoodInspect_InspectFrame_Show(unit)
-	oldGoodInspect_InspectFrame_Show(unit);
+	if (oldGoodInspect_InspectFrame_Show) then
+		oldGoodInspect_InspectFrame_Show(unit);
+	end
 	if ( not UnitIsPlayer(unit)) then return; end
 
 	local tiptext = StatCompare_UpdateAndGetTooltipText(StatScanner_bonuses,0);
@@ -516,7 +524,9 @@ end
 function SCInspectorFrameHide()
 	SCHideFrame(StatCompareTargetFrame);
 	SCHideFrame(StatCompareSelfFrame);
-	oldInspectorFrameHide();
+	if (oldInspectorFrameHide) then
+		oldInspectorFrameHide();
+	end
 end
 function SCSuperInspect_InspectFrame_Show(unit)
 	SCHideFrame(StatCompareTargetFrame);
@@ -538,12 +548,16 @@ function SCSuperInspect_InspectFrame_Show(unit)
 			end
 		end
 	end
-	scoldSuperInspect_InspectFrame_Show(unit);
+	if (scoldSuperInspect_InspectFrame_Show) then
+		scoldSuperInspect_InspectFrame_Show(unit);
+	end
 end
 function SCClearInspectPlayer()
 	SCHideFrame(StatCompareTargetFrame);
 	SCHideFrame(StatCompareSelfFrame);
-	scoldClearInspectPlayer();
+	if (scoldClearInspectPlayer) then
+		scoldClearInspectPlayer();
+	end
 end
 
 function StatCompare_GetTitlebarText(prefix)
@@ -587,12 +601,16 @@ end
 
 function SCPaperDollFrame_OnHide()
 	SCHideFrame(StatCompareSelfFrame);
-	oldPaperDollFrame_OnHide();
+	if (oldPaperDollFrame_OnHide) then
+		oldPaperDollFrame_OnHide();
+	end
 end
 
 function SCInspectFrame_Show(unit)
 	HideUIPanel(InspectFrame);
-	oldInspectFrame_Show(unit);
+	if (oldInspectFrame_Show) then
+		oldInspectFrame_Show(unit);
+	end
 	if (not UnitIsVisible(unit)) then return; end
 	if(UnitExists(unit) and UnitIsPlayer(unit)) then
 		NotifyInspect(unit);
@@ -610,7 +628,9 @@ end
 function SCInspectFrame_OnHide()
 	SCHideFrame(StatCompareTargetFrame);
 	SCHideFrame(StatCompareSelfFrame);
-	oldInspectFrame_OnHide();
+	if (oldInspectFrame_OnHide) then
+		oldInspectFrame_OnHide();
+	end
 end
 
 function SCHideUIPanel(frame)
@@ -618,7 +638,9 @@ function SCHideUIPanel(frame)
 		SCItemTooltip:Hide();
 		SCHideFrame(StatCompareItemStatFrame);
 	end
-	oldHideUIPanel(frame);
+	if (oldHideUIPanel) then
+		oldHideUIPanel(frame);
+	end
 end
 
 function StatScanner_GetStatsDisplayText(bonuses,bSelfStat)
@@ -1185,8 +1207,10 @@ end
 
 function StatCompare_UpdateFrameText(frameName, textbody, titletext)
 	local frame = getglobal(frameName);
+	if (not frame) then return; end
 	local text = getglobal(frameName.."Text");
 	local title = getglobal(frameName.."Title");
+	if (not text or not title) then return; end
 	local buffFrame = getglobal(frame:GetName().."BuffList")
 	local paddingHeightForAesthetics = 20; -- Without this, the content stopped precisely against the words on the bottom.
 	local paddingWidthForAesthetics = 40;  -- Without this, the content stopped precisely against the words on the right.

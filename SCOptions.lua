@@ -313,9 +313,10 @@ function StatCompare_InitConfig()
 end
 
 function StatCompare_CheckRealm()
+	local tabs = { "Settings" };
 	if ( StatCompare_Info["Settings"] ) then
 		local old = StatCompare_Info["Settings"][playerName];
-			
+
 		if ( old ) then
 			if ( not StatCompare_Info[realmName] ) then
 				StatCompare_Info[realmName] = { };
@@ -323,12 +324,14 @@ function StatCompare_CheckRealm()
 					StatCompare_Info[realmName][tab] = { };
 				end
 			end
-				
-			StatCompare_Info[realmName][tab][playerName] = { };
-			for k, v in pairs(old) do
-				StatCompare_Info[realmName][tab][playerName][k] = v;
+
+			for _,tab in pairs(tabs) do
+				StatCompare_Info[realmName][tab][playerName] = { };
+				for k, v in pairs(old) do
+					StatCompare_Info[realmName][tab][playerName][k] = v;
+				end
+				StatCompare_Info[tab][playerName] = nil;
 			end
-			StatCompare_Info[tab][playerName] = nil;
 		end
 			
 		-- clean out cruft, if we have some
